@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="fr" data-lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Djabirati Marthadi Abdou · Backend & IA générative</title>
+<meta name="description" content="Développeuse back-end Python et IA générative à Marseille : agents LLM, RAG, serveurs MCP, mis en production pour des équipes métier.">
+<meta property="og:title" content="Djabirati Marthadi Abdou · Backend & IA générative">
+<meta property="og:description" content="Agents LLM, RAG, serveurs MCP et APIs Python, du besoin métier à la production.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32' fill='%23B4532A'/%3E%3Ctext x='32' y='42' font-family='Georgia,serif' font-size='28' text-anchor='middle' fill='%23F5F1EA'%3EDM%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1EA;
+    --surface: #EDE7DD;
+    --surface-2: #E6DED1;
+    --ink: #1D1B18;
+    --muted: #6B655C;
+    --line: #DAD1C3;
+    --accent: #B4532A;
+    --accent-soft: rgba(180, 83, 42, 0.10);
+    --radius: 14px;
+    --serif: "Instrument Serif", Georgia, "Times New Roman", serif;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #15130F; --surface: #1E1B16; --surface-2: #26221C; --ink: #EDE7DD;
+      --muted: #A39B8F; --line: #332E26; --accent: #E07A4F; --accent-soft: rgba(224, 122, 79, 0.12);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #15130F; --surface: #1E1B16; --surface-2: #26221C; --ink: #EDE7DD;
+    --muted: #A39B8F; --line: #332E26; --accent: #E07A4F; --accent-soft: rgba(224, 122, 79, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--sans); font-size: 16px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+  @media (min-width: 720px) { .wrap { padding: 0 32px; } }
+
+  /* Bilingue */
+  html[data-lang="fr"] .en, html[data-lang="en"] .fr { display: none !important; }
+
+  /* Navigation */
+  header.nav {
+    position: sticky; top: 0; z-index: 10;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-weight: 600; font-size: 15px; }
+  .monogram {
+    width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center;
+    background: var(--accent); color: var(--bg); font-family: var(--serif); font-size: 17px; letter-spacing: .5px;
+  }
+  .nav-links { display: none; gap: 24px; font-size: 14px; }
+  .nav-links a { text-decoration: none; color: var(--muted); }
+  .nav-links a:hover { color: var(--ink); }
+  @media (min-width: 860px) { .nav-links { display: flex; } }
+  .nav-actions { display: flex; align-items: center; gap: 8px; }
+  .lang-toggle {
+    display: inline-flex; border: 1px solid var(--line); border-radius: 999px; overflow: hidden; font-size: 13px;
+  }
+  .lang-toggle button {
+    border: 0; background: transparent; color: var(--muted); padding: 6px 11px; cursor: pointer; font: inherit;
+  }
+  .lang-toggle button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px; text-decoration: none; font-size: 14px; font-weight: 500;
+    padding: 11px 18px; border-radius: 999px; border: 1px solid var(--ink); transition: transform .15s ease, background .15s ease;
+  }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-primary { background: var(--ink); color: var(--bg); }
+  .btn-ghost { background: transparent; color: var(--ink); }
+  .btn-small { padding: 7px 14px; font-size: 13px; }
+
+  /* Hero */
+  .hero { padding-top: 72px; padding-bottom: 56px; }
+  @media (min-width: 720px) { .hero { padding-top: 112px; padding-bottom: 80px; } }
+  .eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 20px; }
+  h1, h2, h3 { font-weight: 400; margin: 0; }
+  h1 {
+    font-family: var(--serif); font-size: clamp(42px, 8vw, 84px); line-height: 1.02; letter-spacing: -0.01em; max-width: 14ch;
+  }
+  h1 em, h2 em { font-style: italic; color: var(--accent); }
+  .lead { font-size: 18px; color: var(--muted); max-width: 58ch; margin: 28px 0 32px; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .status { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); margin-top: 28px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: #3F9A5B; box-shadow: 0 0 0 4px rgba(63, 154, 91, .15); }
+  .socials { display: flex; gap: 18px; margin-top: 20px; font-size: 14px; }
+  .socials a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 2px; }
+  .socials a:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* Sections */
+  section { padding: 64px 0; border-top: 1px solid var(--line); }
+  .section-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 36px; }
+  h2 { font-family: var(--serif); font-size: clamp(32px, 5vw, 48px); line-height: 1.08; }
+  .section-note { color: var(--muted); font-size: 14px; max-width: 42ch; margin: 0; }
+
+  /* Chiffres */
+  .stats { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 640px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  @media (min-width: 960px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stat { background: var(--surface); border-radius: var(--radius); padding: 24px; }
+  .stat-num { font-family: var(--serif); font-size: 46px; line-height: 1; color: var(--accent); white-space: nowrap; }
+  .stat-label { margin-top: 12px; font-size: 14px; color: var(--muted); }
+
+  /* Cartes */
+  .cards { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  @media (min-width: 900px) { .cards.two { grid-template-columns: repeat(2, 1fr); } }
+  .card {
+    background: var(--surface); border-radius: var(--radius); padding: 28px; display: flex; flex-direction: column; gap: 18px;
+    border: 1px solid transparent; transition: border-color .2s ease;
+  }
+  .card:hover { border-color: var(--line); }
+  .card-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+  .tag {
+    font-size: 12px; letter-spacing: .04em; text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .card h3 { font-family: var(--serif); font-size: 30px; line-height: 1.1; }
+  .psr { display: grid; gap: 14px; margin: 0; }
+  .psr div { display: grid; grid-template-columns: 1fr; gap: 2px; }
+  @media (min-width: 560px) { .psr div { grid-template-columns: 110px 1fr; gap: 16px; } }
+  .psr dt { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); padding-top: 3px; }
+  .psr dd { margin: 0; font-size: 15px; }
+  .result { font-weight: 500; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
+  .chip { font-size: 12.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
+  .card-link { font-size: 14px; font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; align-self: flex-start; }
+  .footnote { margin-top: 20px; font-size: 13px; color: var(--muted); }
+
+  .mini { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
+  @media (min-width: 900px) { .mini { grid-template-columns: 1fr 1fr; } }
+  .mini .card { padding: 24px; }
+  .mini h3 { font-size: 24px; }
+
+  /* Parcours */
+  .timeline { list-style: none; margin: 0; padding: 0; position: relative; }
+  .timeline::before { content: ""; position: absolute; left: 7px; top: 8px; bottom: 8px; width: 1px; background: var(--line); }
+  .timeline li { position: relative; padding: 0 0 32px 36px; }
+  .timeline li:last-child { padding-bottom: 0; }
+  .timeline li::before {
+    content: ""; position: absolute; left: 0; top: 6px; width: 15px; height: 15px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--accent);
+  }
+  .timeline li.now::before { background: var(--accent); }
+  .when { font-size: 13px; color: var(--muted); letter-spacing: .03em; }
+  .timeline h3 { font-family: var(--serif); font-size: 26px; line-height: 1.15; margin: 2px 0 6px; }
+  .timeline p { margin: 0; color: var(--muted); max-width: 64ch; }
+  @media (min-width: 860px) {
+    .timeline-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 48px; align-items: start; }
+  }
+  .journey-intro { color: var(--muted); font-size: 17px; max-width: 40ch; margin: 16px 0 32px; }
+
+  /* Compétences */
+  .skills { display: grid; grid-template-columns: 1fr; gap: 12px; }
+  @media (min-width: 720px) { .skills { grid-template-columns: repeat(2, 1fr); } }
+  .skill-group { background: var(--surface); border-radius: var(--radius); padding: 22px 24px; }
+  .skill-group h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .07em; color: var(--muted); font-family: var(--sans); font-weight: 600; margin-bottom: 12px; }
+
+  /* Contact */
+  .contact { text-align: left; padding: 88px 0; }
+  .contact h2 { font-size: clamp(40px, 7vw, 72px); max-width: 16ch; }
+  .contact p { color: var(--muted); font-size: 17px; max-width: 52ch; margin: 20px 0 32px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 40px; font-size: 13px; color: var(--muted); }
+  .foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; }
+
+  /* Apparition au scroll */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    .btn { transition: none; }
+  }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <a class="brand" href="#top" aria-label="Accueil">
+      <span class="monogram" aria-hidden="true">DM</span>
+      <span>Djabirati Marthadi Abdou</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#etudes"><span class="fr">Études de cas</span><span class="en">Case studies</span></a>
+      <a href="#projets"><span class="fr">Projets</span><span class="en">Projects</span></a>
+      <a href="#parcours"><span class="fr">Parcours</span><span class="en">Journey</span></a>
+      <a href="#competences"><span class="fr">Compétences</span><span class="en">Skills</span></a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-actions">
+      <div class="lang-toggle" role="group" aria-label="Langue / Language">
+        <button type="button" data-set-lang="fr" aria-pressed="true">FR</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- Accroche -->
+  <div class="wrap hero">
+    <p class="eyebrow">
+      <span class="fr">Développeuse back-end Python · IA générative · Marseille</span>
+      <span class="en">Backend Python engineer · Generative AI · Marseille, France</span>
+    </p>
+    <h1>
+      <span class="fr">Je construis des outils IA, du besoin métier <em>à la production.</em></span>
+      <span class="en">I build AI tools, from the business need <em>to production.</em></span>
+    </h1>
+    <p class="lead">
+      <span class="fr">Agents LLM, RAG, serveurs MCP et APIs Python. Près de 3 ans de développement back-end, dont un an et demi au sein du pôle IA d'Alinéa, à construire des outils pour les équipes de vente, de logistique et de service client.</span>
+      <span class="en">LLM agents, RAG, MCP servers and Python APIs. Nearly three years of backend development, including eighteen months in Alinéa's AI team, building tools for the sales, logistics and customer-service teams.</span>
+    </p>
+    <div class="cta-row">
+      <a class="btn btn-primary fr" href="cv/CV_Djabirati_Marthadi_Abdou_FR.pdf" target="_blank" rel="noopener">Télécharger mon CV</a>
+      <a class="btn btn-primary en" href="cv/CV_Djabirati_Marthadi_Abdou_EN.pdf" target="_blank" rel="noopener">Download my resume</a>
+      <a class="btn btn-ghost" href="#contact"><span class="fr">Me contacter</span><span class="en">Get in touch</span></a>
+    </div>
+    <div class="status"><span class="dot" aria-hidden="true"></span>
+      <span class="fr">Disponible immédiatement · Marseille ou télétravail</span>
+      <span class="en">Available now · Marseille or remote</span>
+    </div>
+    <div class="socials">
+      <a href="https://github.com/djabirati" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://www.linkedin.com/in/djabirati-marthadi" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="mailto:marthadidjabirati@gmail.com">Email</a>
+    </div>
+  </div>
+
+  <!-- Chiffres -->
+  <section>
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2><span class="fr">Ce qui tourne <em>en production.</em></span><span class="en">What runs <em>in production.</em></span></h2>
+      </div>
+      <div class="stats">
+        <div class="stat reveal">
+          <div class="stat-num">10</div>
+          <div class="stat-label"><span class="fr">vendeurs utilisent chaque jour la recherche sémantique que j'ai mise en production en magasin</span><span class="en">sales associates use the semantic search I put into production in store, every day</span></div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat-num">37 → 6 ms</div>
+          <div class="stat-label"><span class="fr">temps de réponse de la requête complète, après refonte de l'accès aux données</span><span class="en">end-to-end query latency, after reworking the data access path</span></div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat-num">3 500 × 224</div>
+          <div class="stat-label"><span class="fr">produits et attributs indexés dans PostgreSQL avec pgvector</span><span class="en">products and attributes indexed in PostgreSQL with pgvector</span></div>
+        </div>
+        <div class="stat reveal">
+          <div class="stat-num">3</div>
+          <div class="stat-label"><span class="fr">équipes métier accompagnées : vente, logistique et service client</span><span class="en">business teams supported: sales, logistics and customer service</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Études de cas -->
+  <section id="etudes">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2><span class="fr">Études de cas <em>Alinéa</em></span><span class="en"><em>Alinéa</em> case studies</span></h2>
+        <p class="section-note"><span class="fr">Service Transformation d'un groupe de distribution, oct. 2024 – avr. 2026. Pour chaque projet, j'ai recueilli le besoin auprès de l'équipe, construit la solution et suivi son adoption.</span><span class="en">Transformation team of a retail group, Oct 2024 – Apr 2026. For each project, I gathered the need with the team, built the solution and followed its adoption.</span></p>
+      </div>
+
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-top">
+            <h3><span class="fr">Recherche sémantique en magasin</span><span class="en">In-store semantic search</span></h3>
+            <span class="tag"><span class="fr">Vente</span><span class="en">Sales</span></span>
+          </div>
+          <dl class="psr">
+            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+              <dd><span class="fr">Retrouver le bon produit dans un catalogue de 3 500 références et 224 attributs, à partir d'une recherche en langage naturel.</span><span class="en">Find the right product in a catalog of 3,500 items and 224 attributes, from a natural-language search.</span></dd></div>
+            <div><dt>Solution</dt>
+              <dd><span class="fr">Embeddings et recherche vectorielle avec pgvector sur la base PostgreSQL en production. Le cœur du travail : décider quelles colonnes deviennent du texte indexé et lesquelles deviennent des filtres. Je m'occupais du back-end, de l'API et de la mise en production. L'interface a été réalisée par un collègue.</span><span class="en">Embeddings and vector search with pgvector on the live PostgreSQL database. The core of the work: deciding which columns become indexed text and which become filters. I owned the backend, the API and the deployment. A colleague built the interface.</span></dd></div>
+            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+              <dd class="result"><span class="fr">Utilisée chaque jour par 10 vendeurs. Temps de réponse ramené de 37 ms à 6 ms.</span><span class="en">Used daily by 10 sales associates. Latency cut from 37 ms to 6 ms.</span></dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">pgvector</span><span class="chip">Docker</span><span class="chip">Cloud Run</span></div>
+        </article>
+
+        <div class="cards two">
+          <article class="card reveal">
+            <div class="card-top">
+              <h3><span class="fr">Litiges transporteurs</span><span class="en">Carrier disputes</span></h3>
+              <span class="tag"><span class="fr">Logistique</span><span class="en">Logistics</span></span>
+            </div>
+            <dl class="psr">
+              <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+                <dd><span class="fr">Savoir quels transporteurs génèrent le plus de litiges.</span><span class="en">Know which carriers generate the most disputes.</span></dd></div>
+              <div><dt>Solution</dt>
+                <dd><span class="fr">Chaque mail reçu sur une boîte dédiée déclenche un workflow qui le classe automatiquement, puis consolide les résultats dans un tableau de bord.</span><span class="en">Each email received in a dedicated inbox triggers a workflow that classifies it automatically, then consolidates the results in a dashboard.</span></dd></div>
+              <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+                <dd class="result"><span class="fr">Un tableau de bord Looker Studio qui classe les transporteurs par nombre de litiges.</span><span class="en">A Looker Studio dashboard ranking carriers by number of disputes.</span></dd></div>
+            </dl>
+            <div class="chips"><span class="chip">n8n</span><span class="chip"><span class="fr">Classification</span><span class="en">Classification</span></span><span class="chip">Looker Studio</span></div>
+          </article>
+
+          <article class="card reveal">
+            <div class="card-top">
+              <h3><span class="fr">Priorisation des appels</span><span class="en">Call prioritization</span></h3>
+              <span class="tag"><span class="fr">Service client</span><span class="en">Support</span></span>
+            </div>
+            <dl class="psr">
+              <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+                <dd><span class="fr">Une équipe débordée par les appels, qui ne savait pas qui rappeler en premier.</span><span class="en">An overloaded team that didn't know whom to call back first.</span></dd></div>
+              <div><dt>Solution</dt>
+                <dd><span class="fr">Un workflow d'agents qui analyse chaque jour les transcriptions d'appels et repère les cas urgents.</span><span class="en">An agent workflow that analyses call transcripts every day and flags the urgent cases.</span></dd></div>
+              <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+                <dd class="result"><span class="fr">Un rapport quotidien qui indique les cas à traiter en priorité.</span><span class="en">A daily report listing the cases to handle first.</span></dd></div>
+            </dl>
+            <div class="chips"><span class="chip"><span class="fr">Agents LLM</span><span class="en">LLM agents</span></span><span class="chip"><span class="fr">Transcription</span><span class="en">Transcription</span></span></div>
+          </article>
+        </div>
+
+        <article class="card reveal">
+          <div class="card-top">
+            <h3><span class="fr">Agents et serveurs MCP</span><span class="en">Agents and MCP servers</span></h3>
+            <span class="tag"><span class="fr">Socle</span><span class="en">Foundation</span></span>
+          </div>
+          <p style="margin:0"><span class="fr">Des agents LLM multi-étapes qui enchaînent plusieurs outils et choisissent l'étape suivante selon les résultats intermédiaires, et des serveurs MCP qui leur donnent accès aux outils internes. Les prompts ont été retravaillés à partir des requêtes réellement en échec en production, avec un suivi du coût en tokens de chaque appel.</span><span class="en">Multi-step LLM agents that chain several tools and pick the next step from intermediate results, plus MCP servers giving them access to internal tools. Prompts were reworked from the queries that actually failed in production, with token cost tracked for every call.</span></p>
+          <div class="chips"><span class="chip">MCP</span><span class="chip">Tool use</span><span class="chip">LangChain</span><span class="chip">CrewAI</span><span class="chip">Google ADK</span><span class="chip">Gemini</span></div>
+        </article>
+      </div>
+      <p class="footnote reveal"><span class="fr">Projets réalisés chez Alinéa. Aucune donnée interne n'est présentée sur cette page.</span><span class="en">Projects built at Alinéa. No internal data is shown on this page.</span></p>
+    </div>
+  </section>
+
+  <!-- Projets personnels -->
+  <section id="projets">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2><span class="fr">Projets <em>personnels</em></span><span class="en">Personal <em>projects</em></span></h2>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <div class="card-top">
+            <h3><span class="fr">Veille technologique automatisée</span><span class="en">Automated tech watch</span></h3>
+            <span class="tag"><span class="fr">En production</span><span class="en">Live</span></span>
+          </div>
+          <dl class="psr">
+            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+              <dd><span class="fr">Suivre l'actualité de l'IA, du machine learning et de Python sans y passer des heures chaque semaine.</span><span class="en">Keep up with AI, machine learning and Python news without spending hours on it every week.</span></dd></div>
+            <div><dt>Solution</dt>
+              <dd><span class="fr">Un workflow n8n hebdomadaire qui agrège Arxiv, Hugging Face, NewsAPI et les dépôts tendance de GitHub, sélectionne et note les articles, puis envoie un résumé sur Discord. Pour fusionner plus de deux sources, j'ai regroupé les appels HTTP dans un seul nœud Code.</span><span class="en">A weekly n8n workflow that aggregates Arxiv, Hugging Face, NewsAPI and GitHub trending repositories, selects and scores the articles, then posts a digest to Discord. To merge more than two sources, I grouped the HTTP calls into a single Code node.</span></dd></div>
+            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+              <dd class="result"><span class="fr">Un résumé chaque semaine sur Discord, et une variante adaptée pour un ami doctorant en cryptographie et sécurité.</span><span class="en">A weekly digest on Discord, plus a variant adapted for a PhD friend working on cryptography and security.</span></dd></div>
+          </dl>
+          <div class="chips"><span class="chip">n8n</span><span class="chip">JavaScript</span><span class="chip">REST APIs</span><span class="chip">Webhooks</span><span class="chip">Discord</span></div>
+          <!-- Remplacer le lien par celui du dépôt une fois le workflow publié -->
+          <a class="card-link" href="https://github.com/djabirati" target="_blank" rel="noopener"><span class="fr">Voir sur GitHub →</span><span class="en">View on GitHub →</span></a>
+        </article>
+
+        <!--
+        Projet phare à activer quand il sera en ligne : retirer les balises de commentaire.
+        <article class="card reveal">
+          <div class="card-top">
+            <h3><span class="fr">Analyse d'offres d'emploi</span><span class="en">Job-offer analyzer</span></h3>
+            <span class="tag"><span class="fr">En cours</span><span class="en">In progress</span></span>
+          </div>
+          <dl class="psr">
+            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+              <dd><span class="fr">…</span><span class="en">…</span></dd></div>
+            <div><dt>Solution</dt>
+              <dd><span class="fr">…</span><span class="en">…</span></dd></div>
+            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+              <dd class="result"><span class="fr">…</span><span class="en">…</span></dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">MCP</span><span class="chip">Langfuse</span><span class="chip">GitHub Actions</span></div>
+        </article>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Parcours -->
+  <section id="parcours">
+    <div class="wrap timeline-grid">
+      <div class="reveal">
+        <h2><span class="fr">Un parcours <em>pas tout droit.</em></span><span class="en">A path that <em>took a turn.</em></span></h2>
+        <p class="journey-intro"><span class="fr">De la recherche biomédicale au développement, puis à l'IA générative.</span><span class="en">From biomedical research to software development, then generative AI.</span></p>
+      </div>
+      <ol class="timeline">
+        <li class="reveal">
+          <div class="when">2018 – 2020</div>
+          <h3><span class="fr">Master en sciences biomédicales</span><span class="en">MSc in Biomedical Sciences</span></h3>
+          <p><span class="fr">Université catholique de Louvain, Belgique. Microbiologie, recherche fondamentale, travaux sur CRISPR-Cas9 et les maladies hépatiques.</span><span class="en">UCLouvain, Belgium. Microbiology, fundamental research, work on CRISPR-Cas9 and liver diseases.</span></p>
+        </li>
+        <li class="reveal">
+          <div class="when">2023 – 2024</div>
+          <h3><span class="fr">Développeuse fullstack · People In</span><span class="en">Fullstack developer · People In</span></h3>
+          <p><span class="fr">SaaS RH à Avignon. Modules d'une plateforme de recrutement : APIs REST en NestJS / TypeScript, modèles SQL, tests, chiffrement des données candidats. En parallèle, Bachelor Concepteur Développeur d'Applications (Nexa Digital School).</span><span class="en">HR SaaS in Avignon. Modules of a recruitment platform: REST APIs in NestJS / TypeScript, SQL models, tests, encryption of candidate data. Alongside a BSc in Software Application Development (Nexa Digital School).</span></p>
+        </li>
+        <li class="reveal">
+          <div class="when"><span class="fr">Oct. 2024 – avr. 2026</span><span class="en">Oct 2024 – Apr 2026</span></div>
+          <h3><span class="fr">Développeuse Python / GenAI · Alinéa</span><span class="en">Python / GenAI engineer · Alinéa</span></h3>
+          <p><span class="fr">Arrivée comme développeuse NestJS. Moins de deux mois plus tard, l'entreprise crée un pôle IA et je le rejoins sans rien connaître à Python ni aux agents. J'y apprends à réfléchir en architecture, en temps de réponse et en coût des appels aux LLM.</span><span class="en">Joined as a NestJS developer. Less than two months later, the company created an AI team and I joined it without knowing Python or agents. I learned to think in terms of architecture, latency and LLM call costs.</span></p>
+        </li>
+        <li class="reveal">
+          <div class="when">2024 – 2026</div>
+          <h3><span class="fr">Mastère Data et Intelligence Artificielle</span><span class="en">MSc Data & Artificial Intelligence</span></h3>
+          <p><span class="fr">Nexa Digital School. Machine learning, NLP, vision par ordinateur, conduite du changement.</span><span class="en">Nexa Digital School. Machine learning, NLP, computer vision, change management.</span></p>
+        </li>
+        <li class="reveal now">
+          <div class="when"><span class="fr">Aujourd'hui</span><span class="en">Today</span></div>
+          <h3><span class="fr">À la recherche de mon prochain poste</span><span class="en">Looking for my next role</span></h3>
+          <p><span class="fr">Back-end Python et IA générative, à Marseille, à Aix ou en télétravail.</span><span class="en">Backend Python and generative AI, in Marseille, Aix-en-Provence or remote.</span></p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- Compétences -->
+  <section id="competences">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <h2><span class="fr">Compétences</span><span class="en">Skills</span></h2>
+      </div>
+      <div class="skills">
+        <div class="skill-group reveal">
+          <h3><span class="fr">IA générative</span><span class="en">Generative AI</span></h3>
+          <div class="chips"><span class="chip">RAG</span><span class="chip"><span class="fr">Agents multi-étapes</span><span class="en">Multi-step agents</span></span><span class="chip">MCP</span><span class="chip">Function calling</span><span class="chip">LangChain</span><span class="chip">CrewAI</span><span class="chip">Google ADK</span><span class="chip">Vertex AI · Gemini</span></div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Back-end</h3>
+          <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Django</span><span class="chip">Node.js / NestJS</span><span class="chip">TypeScript</span><span class="chip">REST APIs</span><span class="chip"><span class="fr">Tests unitaires et d'intégration</span><span class="en">Unit & integration tests</span></span></div>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="fr">Données</span><span class="en">Data</span></h3>
+          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">pgvector</span><span class="chip">Chroma</span><span class="chip">FAISS</span><span class="chip">SQL</span><span class="chip">Looker Studio</span></div>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="fr">Outils et cloud</span><span class="en">Tools & cloud</span></h3>
+          <div class="chips"><span class="chip">Docker</span><span class="chip">GCP · Cloud Run · GKE</span><span class="chip">Git · GitLab</span><span class="chip">n8n</span><span class="chip">Claude Code</span><span class="chip">GitHub Copilot</span></div>
+        </div>
+        <div class="skill-group reveal">
+          <h3>Front-end</h3>
+          <div class="chips"><span class="chip">HTMX</span><span class="chip">Alpine.js</span><span class="chip">HTML / CSS</span><span class="chip"><span class="fr">React (formation)</span><span class="en">React (coursework)</span></span></div>
+        </div>
+        <div class="skill-group reveal">
+          <h3><span class="fr">Langues</span><span class="en">Languages</span></h3>
+          <div class="chips"><span class="chip"><span class="fr">Français · natif</span><span class="en">French · native</span></span><span class="chip"><span class="fr">Comorien · natif</span><span class="en">Comorian · native</span></span><span class="chip"><span class="fr">Anglais · C1</span><span class="en">English · C1</span></span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <h2><span class="fr">Un projet, un poste, <em>une question ?</em></span><span class="en">A project, a role, <em>a question?</em></span></h2>
+      <p><span class="fr">Je suis disponible immédiatement. Le plus simple est de m'écrire par mail ou sur LinkedIn.</span><span class="en">I'm available now. The easiest way to reach me is by email or on LinkedIn.</span></p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="mailto:marthadidjabirati@gmail.com">marthadidjabirati@gmail.com</a>
+        <a class="btn btn-ghost" href="https://www.linkedin.com/in/djabirati-marthadi" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn btn-ghost" href="https://github.com/djabirati" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>Djabirati Marthadi Abdou · Marseille</span>
+    <span class="fr">Site construit avec l'aide de Claude Code</span>
+    <span class="en">Built with the help of Claude Code</span>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    function setLang(lang) {
+      root.setAttribute('data-lang', lang);
+      root.setAttribute('lang', lang);
+      document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+        b.setAttribute('aria-pressed', b.getAttribute('data-set-lang') === lang ? 'true' : 'false');
+      });
+      try { localStorage.setItem('lang', lang); } catch (e) {}
+    }
+    var saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) {}
+    var initial = saved || ((navigator.language || 'fr').toLowerCase().indexOf('fr') === 0 ? 'fr' : 'en');
+    setLang(initial);
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+    });
+
+    var items = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: 0.12 });
+      items.forEach(function (el) { io.observe(el); });
+    } else {
+      items.forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>
