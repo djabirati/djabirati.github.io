@@ -353,6 +353,23 @@
       <div class="cards">
         <article class="card reveal">
           <div class="card-top">
+            <h3><span class="fr">ClaimDesk : tri des litiges de livraison</span><span class="en">ClaimDesk: delivery-dispute triage</span></h3>
+            <span class="tag"><span class="fr">En cours</span><span class="en">In progress</span></span>
+          </div>
+          <dl class="psr">
+            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+              <dd><span class="fr">Un service après-vente reçoit des mails de litiges (colis cassé, perdu, en retard) qu'il faut lire, classer et rattacher à la bonne commande avant de pouvoir agir.</span><span class="en">An after-sales team receives dispute emails (broken, lost or late parcels) that must be read, classified and matched to the right order before anyone can act.</span></dd></div>
+            <div><dt>Solution</dt>
+              <dd><span class="fr">Une API FastAPI qui extrait d'abord les numéros de commande par regex, fait classer le mail par un LLM dans un JSON validé, supprime tout identifiant absent du mail et laisse le code décider quand une personne relit. Les mails passent par une file d'attente Postgres traitée par des workers, avec des relances quand le fournisseur du modèle ne répond pas.</span><span class="en">A FastAPI service that extracts order numbers with regexes first, has an LLM classify the email into validated JSON, drops any identifier that is not in the email, and lets the code decide when a person reviews. Emails go through a Postgres job queue processed by workers, with retries when the model provider does not answer.</span></dd></div>
+            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+              <dd class="result"><span class="fr">Triage, file d'attente et workers terminés, avec le log de chaque appel et son coût, et des tests en CI sur un vrai Postgres. Prochaine étape : une suite d'évaluation qui bloque les régressions.</span><span class="en">Triage, job queue and workers done, with every model call logged with its cost and tests running in CI on a real Postgres. Next: an evaluation suite that blocks regressions.</span></dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">Gemini</span><span class="chip">Pydantic</span><span class="chip">Docker</span><span class="chip">GitHub Actions</span></div>
+          <a class="card-link" href="https://github.com/djabirati/claimdesk" target="_blank" rel="noopener"><span class="fr">Voir sur GitHub →</span><span class="en">View on GitHub →</span></a>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top">
             <h3><span class="fr">Veille technologique automatisée</span><span class="en">Automated tech watch</span></h3>
             <span class="tag"><span class="fr">En production</span><span class="en">Live</span></span>
           </div>
@@ -365,28 +382,9 @@
               <dd class="result"><span class="fr">Un résumé chaque semaine sur Discord, et une variante adaptée pour un ami doctorant en cryptographie et sécurité.</span><span class="en">A weekly digest on Discord, plus a variant adapted for a PhD friend working on cryptography and security.</span></dd></div>
           </dl>
           <div class="chips"><span class="chip">n8n</span><span class="chip">JavaScript</span><span class="chip">REST APIs</span><span class="chip">Webhooks</span><span class="chip">Discord</span></div>
-          <!-- Remplacer le lien par celui du dépôt une fois le workflow publié -->
-          <a class="card-link" href="https://github.com/djabirati" target="_blank" rel="noopener"><span class="fr">Voir sur GitHub →</span><span class="en">View on GitHub →</span></a>
+          <!-- Lien GitHub à ajouter une fois le workflow publié (sans les secrets) -->
         </article>
 
-        <!--
-        Projet phare à activer quand il sera en ligne : retirer les balises de commentaire.
-        <article class="card reveal">
-          <div class="card-top">
-            <h3><span class="fr">Analyse d'offres d'emploi</span><span class="en">Job-offer analyzer</span></h3>
-            <span class="tag"><span class="fr">En cours</span><span class="en">In progress</span></span>
-          </div>
-          <dl class="psr">
-            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
-              <dd><span class="fr">…</span><span class="en">…</span></dd></div>
-            <div><dt>Solution</dt>
-              <dd><span class="fr">…</span><span class="en">…</span></dd></div>
-            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
-              <dd class="result"><span class="fr">…</span><span class="en">…</span></dd></div>
-          </dl>
-          <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">MCP</span><span class="chip">Langfuse</span><span class="chip">GitHub Actions</span></div>
-        </article>
-        -->
       </div>
     </div>
   </section>
