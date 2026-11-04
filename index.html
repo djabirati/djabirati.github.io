@@ -140,6 +140,8 @@
   .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; }
   .chip { font-size: 12.5px; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--muted); }
   .card-link { font-size: 14px; font-weight: 500; text-decoration: none; border-bottom: 1px solid currentColor; align-self: flex-start; }
+  .card-links { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 22px; }
+  .link-note { font-size: 13px; color: var(--muted); }
   .footnote { margin-top: 20px; font-size: 13px; color: var(--muted); }
 
   .mini { display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 16px; }
@@ -226,8 +228,8 @@
       <span class="en">I build AI tools, from the business need <em>to production.</em></span>
     </h1>
     <p class="lead">
-      <span class="fr">Agents LLM, RAG, serveurs MCP et APIs Python. Près de 3 ans de développement back-end, dont un an et demi au sein du pôle IA d'Alinéa, à construire des outils pour les équipes de vente, de logistique et de service client.</span>
-      <span class="en">LLM agents, RAG, MCP servers and Python APIs. Nearly three years of backend development, including eighteen months in Alinéa's AI team, building tools for the sales, logistics and customer-service teams.</span>
+      <span class="fr">Agents LLM, RAG, serveurs MCP et APIs Python. Près de 3 ans de développement back-end, dont plus d'un an au sein du pôle IA d'Alinéa, à construire des outils pour les équipes de vente, de logistique et de service client.</span>
+      <span class="en">LLM agents, RAG, MCP servers and Python APIs. Nearly three years of backend development, including more than a year in Alinéa's AI team, building tools for the sales, logistics and customer-service teams.</span>
     </p>
     <div class="cta-row">
       <a class="btn btn-primary fr" href="cv/CV_Djabirati_Marthadi_Abdou_FR.pdf" target="_blank" rel="noopener">Télécharger mon CV</a>
@@ -249,16 +251,16 @@
   <section>
     <div class="wrap">
       <div class="section-head reveal">
-        <h2><span class="fr">Ce qui tourne <em>en production.</em></span><span class="en">What runs <em>in production.</em></span></h2>
+        <h2><span class="fr">Quelques <em>chiffres.</em></span><span class="en">A few <em>numbers.</em></span></h2>
       </div>
       <div class="stats">
         <div class="stat reveal">
           <div class="stat-num">10</div>
-          <div class="stat-label"><span class="fr">vendeurs utilisent chaque jour la recherche sémantique que j'ai mise en production en magasin</span><span class="en">sales associates use the semantic search I put into production in store, every day</span></div>
+          <div class="stat-label"><span class="fr">vendeurs ont utilisé en magasin la recherche sémantique que j'ai mise en production</span><span class="en">sales associates used the semantic search I put into production in store</span></div>
         </div>
         <div class="stat reveal">
-          <div class="stat-num">37 → 6 ms</div>
-          <div class="stat-label"><span class="fr">temps de réponse de la requête complète, après refonte de l'accès aux données</span><span class="en">end-to-end query latency, after reworking the data access path</span></div>
+          <div class="stat-num">93 %</div>
+          <div class="stat-label"><span class="fr">d'exactitude pour le classifieur de mon mémoire, mesurée sur un jeu de test isolé</span><span class="en">accuracy of my thesis classifier, measured on a held-out test set</span></div>
         </div>
         <div class="stat reveal">
           <div class="stat-num">3 500 × 224</div>
@@ -292,7 +294,7 @@
             <div><dt>Solution</dt>
               <dd><span class="fr">Embeddings et recherche vectorielle avec pgvector sur la base PostgreSQL en production. Le cœur du travail : décider quelles colonnes deviennent du texte indexé et lesquelles deviennent des filtres. Je m'occupais du back-end, de l'API et de la mise en production. L'interface a été réalisée par un collègue.</span><span class="en">Embeddings and vector search with pgvector on the live PostgreSQL database. The core of the work: deciding which columns become indexed text and which become filters. I owned the backend, the API and the deployment. A colleague built the interface.</span></dd></div>
             <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
-              <dd class="result"><span class="fr">Utilisée chaque jour par 10 vendeurs. Temps de réponse ramené de 37 ms à 6 ms.</span><span class="en">Used daily by 10 sales associates. Latency cut from 37 ms to 6 ms.</span></dd></div>
+              <dd class="result"><span class="fr">Utilisée par 10 vendeurs en magasin. Une version de ce projet, sur un extrait public du catalogue, est en ligne : c'est mon mémoire de Mastère, plus bas.</span><span class="en">Used by 10 sales associates in store. A version of this project, built on a public extract of the catalog, is online: it is my master's thesis, further down.</span></dd></div>
           </dl>
           <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">PostgreSQL</span><span class="chip">pgvector</span><span class="chip">Docker</span><span class="chip">Cloud Run</span></div>
         </article>
@@ -370,6 +372,27 @@
 
         <article class="card reveal">
           <div class="card-top">
+            <h3><span class="fr">Assistant vendeur : mon mémoire de Mastère</span><span class="en">Sales assistant: my master's thesis</span></h3>
+            <span class="tag"><span class="fr">Démo en ligne</span><span class="en">Live demo</span></span>
+          </div>
+          <dl class="psr">
+            <div><dt><span class="fr">Besoin</span><span class="en">Need</span></dt>
+              <dd><span class="fr">Permettre à un vendeur d'interroger le catalogue en langage courant, par exemple « un plaid dans les tons chauds pour un salon cosy, moins de 40 € », et d'obtenir les dix articles les plus pertinents.</span><span class="en">Let a sales associate search the catalog in everyday language, for example "a warm-toned throw for a cosy living room, under €40", and get the ten most relevant items.</span></dd></div>
+            <div><dt>Solution</dt>
+              <dd><span class="fr">Trois couches. Un classifieur entraîné sur le texte des produits devine le rayon (TF-IDF, quatre algorithmes comparés, réglage par validation croisée). Ce rayon devient un filtre SQL, puis une recherche sémantique classe les articles restants. Les 27 variables confidentielles du catalogue (prix d'achat, marges, fournisseurs) sont exclues, et l'export public échoue si l'une d'elles apparaît.</span><span class="en">Three layers. A classifier trained on product text predicts the department (TF-IDF, four algorithms compared, tuning by cross-validation). That department becomes a SQL filter, then a semantic search ranks the remaining items. The catalog's 27 confidential variables (purchase prices, margins, suppliers) are excluded, and the public export fails if one of them appears.</span></dd></div>
+            <div><dt><span class="fr">Résultat</span><span class="en">Result</span></dt>
+              <dd class="result"><span class="fr">93 % d'exactitude pour le classifieur sur un jeu de test isolé. Au benchmark des index PostgreSQL, la requête complète passe de 37 ms à 6,6 ms. L'application est en ligne et s'utilise sans compte.</span><span class="en">93% accuracy for the classifier on a held-out test set. In the PostgreSQL index benchmark, the full query goes from 37 ms to 6.6 ms. The app is online and needs no account.</span></dd></div>
+          </dl>
+          <div class="chips"><span class="chip">Python</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">PostgreSQL</span><span class="chip">TF-IDF · LSA</span><span class="chip">Streamlit</span></div>
+          <div class="card-links">
+            <a class="card-link" href="https://assistant-vendeur-alinea.streamlit.app" target="_blank" rel="noopener"><span class="fr">Essayer la démo →</span><span class="en">Try the demo →</span></a>
+            <a class="card-link" href="https://github.com/djabirati/assistant-vendeur-alinea" target="_blank" rel="noopener"><span class="fr">Voir sur GitHub →</span><span class="en">View on GitHub →</span></a>
+            <span class="link-note"><span class="fr">L'application peut mettre quelques secondes à se réveiller.</span><span class="en">The app may take a few seconds to wake up.</span></span>
+          </div>
+        </article>
+
+        <article class="card reveal">
+          <div class="card-top">
             <h3><span class="fr">Veille technologique automatisée</span><span class="en">Automated tech watch</span></h3>
             <span class="tag"><span class="fr">En production</span><span class="en">Live</span></span>
           </div>
@@ -410,12 +433,12 @@
         <li class="reveal">
           <div class="when"><span class="fr">Oct. 2024 – avr. 2026</span><span class="en">Oct 2024 – Apr 2026</span></div>
           <h3><span class="fr">Développeuse Python / GenAI · Alinéa</span><span class="en">Python / GenAI engineer · Alinéa</span></h3>
-          <p><span class="fr">Arrivée comme développeuse NestJS. Moins de deux mois plus tard, l'entreprise crée un pôle IA et je le rejoins sans rien connaître à Python ni aux agents. J'y apprends à réfléchir en architecture, en temps de réponse et en coût des appels aux LLM.</span><span class="en">Joined as a NestJS developer. Less than two months later, the company created an AI team and I joined it without knowing Python or agents. I learned to think in terms of architecture, latency and LLM call costs.</span></p>
+          <p><span class="fr">Arrivée comme développeuse NestJS. Pour pousser des sujets IA, j'envoie chaque semaine à mon tuteur des cas d'usage pour l'entreprise, avec leur coût et leur ROI. Quatre mois après mon arrivée, l'entreprise crée un pôle IA et je le rejoins dès sa création, sans rien connaître à Python ni aux agents. Son premier projet, les litiges transporteurs, venait de ces fiches. J'y apprends à réfléchir en architecture, en temps de réponse et en coût des appels aux LLM.</span><span class="en">Joined as a NestJS developer. To push AI topics, I sent my tutor a weekly brief with use cases for the company, their cost and ROI. Four months after I joined, the company created an AI team and I joined it from the start, without knowing Python or agents. Its first project, carrier disputes, came from these briefs. I learned to think in terms of architecture, latency and LLM call costs.</span></p>
         </li>
         <li class="reveal">
           <div class="when">2024 – 2026</div>
           <h3><span class="fr">Mastère Data et Intelligence Artificielle</span><span class="en">MSc Data & Artificial Intelligence</span></h3>
-          <p><span class="fr">Nexa Digital School. Machine learning, NLP, vision par ordinateur, conduite du changement.</span><span class="en">Nexa Digital School. Machine learning, NLP, computer vision, change management.</span></p>
+          <p><span class="fr">Nexa Digital School. Machine learning, NLP, vision par ordinateur, conduite du changement. Mémoire : un assistant vendeur intelligent, en ligne.</span><span class="en">Nexa Digital School. Machine learning, NLP, computer vision, change management. Thesis: a smart sales assistant, available online.</span></p>
         </li>
         <li class="reveal now">
           <div class="when"><span class="fr">Aujourd'hui</span><span class="en">Today</span></div>
@@ -442,8 +465,8 @@
           <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Django</span><span class="chip">Node.js / NestJS</span><span class="chip">TypeScript</span><span class="chip">REST APIs</span><span class="chip"><span class="fr">Tests unitaires et d'intégration</span><span class="en">Unit & integration tests</span></span></div>
         </div>
         <div class="skill-group reveal">
-          <h3><span class="fr">Données</span><span class="en">Data</span></h3>
-          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">pgvector</span><span class="chip">Chroma</span><span class="chip">FAISS</span><span class="chip">SQL</span><span class="chip">Looker Studio</span></div>
+          <h3><span class="fr">Données et machine learning</span><span class="en">Data & machine learning</span></h3>
+          <div class="chips"><span class="chip">PostgreSQL</span><span class="chip">pgvector</span><span class="chip">Chroma</span><span class="chip">FAISS</span><span class="chip">SQL</span><span class="chip">scikit-learn</span><span class="chip">pandas</span><span class="chip">Streamlit</span><span class="chip">Looker Studio</span></div>
         </div>
         <div class="skill-group reveal">
           <h3><span class="fr">Outils et cloud</span><span class="en">Tools & cloud</span></h3>
